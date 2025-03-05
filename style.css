@@ -3,63 +3,212 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 :root {
-    --orange: #f2c14e;
+    --primary-color: #f2c14e;
+    --secondary-color: #37505c;
     --winning-blocks: #2d414b;
+    --hover-color: #e6b43d;
 }
+
 body {
-    color: var(--orange);
-    font-family: 'Finger Paint', cursive;
+    color: var(--primary-color);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--secondary-color), #2d414b);
+    min-height: 100vh;
 }
-h1 {
-    font-size: 54px;
-    text-transform: uppercase;
-}
+
 .container {
-    padding: 40px;
-    height: 100vh;
+    padding: 20px;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #37505c;
 }
-#gameboard {
-    width: 450px;
+
+h1 {
+    font-size: clamp(24px, 5vw, 54px);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.scoreboard {
     display: flex;
-    flex-wrap: wrap;
-    margin-top: 40px;
+    justify-content: space-around;
+    align-items: center;
+    width: min(90vw, 450px);
+    margin: 0 auto 20px;
+    padding: 15px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 }
+
+.score-container {
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.05);
+}
+
+.score-container.active {
+    background: rgba(242,193,78,0.2);
+    transform: scale(1.05);
+}
+
+.player {
+    font-size: clamp(14px, 2.5vw, 18px);
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Animasi untuk update skor */
+@keyframes score-update {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.score.updated {
+    animation: score-update 0.5s ease;
+}
+
+#gameboard {
+    width: min(90vw, 450px);
+    aspect-ratio: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr); /* Menambahkan baris yang sama */
+    gap: 10px;
+    margin: 20px auto;
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
 .box {
-    height: 150px;
-    width: 150px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--orange);
-    font-size: 120px;
-    border-right: 2px solid;
-    border-bottom: 2px solid;
-}
-.box:nth-child(3n) {
-    border-right: none;
-}
-.box:nth-child(n+7) {
-    border-bottom: none;
-}
-button {
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 18px;
-    background-color: var(--orange);
-    color: #333;
-    border-color: var(--orange);
-    transition: all 0.3s ;
-    font-weight: 600;
-}
-button:hover {
-    background-color: #333;
-    color: var(--orange);
-    transform: translateY(2px);
+    color: var(--primary-color);
+    font-size: clamp(40px, 10vw, 80px); /* Menyesuaikan ukuran font */
     cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    aspect-ratio: 1; /* Memastikan kotak selalu persegi */
+    width: 100%; /* Memastikan lebar konsisten */
+    height: 100%; /* Memastikan tinggi konsisten */
+}
+
+.box:hover {
+    background: rgba(255,255,255,0.1);
+    transform: scale(0.98);
+    border-color: var(--primary-color);
+}
+
+button {
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: clamp(16px, 3vw, 18px);
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    background: transparent;
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+#playerText {
+    font-size: clamp(20px, 4vw, 32px);
+    margin: 20px 0;
+    text-align: center;
+    min-height: 40px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    
+    #gameboard {
+        gap: 5px;
+        padding: 10px;
+        width: 95vw; /* Sedikit lebih besar untuk mobile */
+    }
+    
+    button {
+        padding: 10px 25px;
+    }
+
+    .box {
+        font-size: clamp(30px, 8vw, 60px); /* Ukuran font lebih kecil untuk mobile */
+    }
+
+    .scoreboard {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .score-container {
+        padding: 8px 15px;
+    }
+
+    .player {
+        font-size: clamp(12px, 2vw, 14px);
+        margin-bottom: 5px;
+    }
+
+    .score {
+        font-size: clamp(20px, 3.5vw, 28px);
+    }
+}
+
+/* Animasi untuk menang */
+@keyframes win-animation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.win {
+    animation: win-animation 0.5s ease;
+    background: var(--winning-blocks) !important;
+}
+
+/* Animasi untuk draw */
+@keyframes draw-animation {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.draw {
+    animation: draw-animation 1s ease;
 }
