@@ -188,10 +188,6 @@ function restart() {
 
 // Tambahkan fungsi baru untuk reset skor
 function resetScore() {
-    playerScore = 0;
-    computerScore = 0;
-    playerScoreDisplay.textContent = '0';
-    computerScoreDisplay.textContent = '0';
     playerScoreContainer.classList.remove('active');
     computerScoreContainer.classList.remove('active');
 }
